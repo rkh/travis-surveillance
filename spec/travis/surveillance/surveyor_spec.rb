@@ -34,5 +34,27 @@ describe Travis::Surveillance::Surveyor do
       @surveyor.socket.simulate_received('job:finished', pusher_json_for(@project.slug, 'job:finished'), 'common')
       @project.builds.last.jobs.last.running?.must_equal false
     end
+
+    describe "when build:finished is received without build:started" do
+      it "should handle it well" do
+        @surveyor.socket.simulate_received('build:finished', pusher_json_for(@project.slug, 'build:finished'), 'common')
+        @project.builds.last.building?.must_equal false
+      end
+    end
+
+    describe "when job:started is received before build:started" do
+      it "should handle it well" do
+        @surveyor.socket.simulate_received('job:started', pusher_json_for(@project.slug, 'job:started'), 'common')
+        @surveyor.socket.simulate_received('build:started', pusher_json_for(@project.slug, 'build:started'), 'common')
+        @project.builds.last.jobs.last.running?.must_equal true
+      end
+    end
+
+    describe "when job:finished is received before OMFG I SHOULD JUST FIX THE INITIAL LOAD" do
+      it "should handle it well" do
+        @surveyor.socket.simulate_received('job:finished', pusher_json_for(@project.slug, 'job:finished'), 'common')
+        @project.builds.last.jobs.last.running?.must_equal false
+      end
+    end
   end
 end
