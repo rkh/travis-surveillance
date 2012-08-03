@@ -1,7 +1,9 @@
 require "json"
 require "open-uri"
+
 gem "pusher-client-merman"
 require "pusher-client"
+PusherClient.logger.level = Logger::INFO
 
 module Travis
   module Surveillance
