@@ -44,6 +44,14 @@ module Travis
       @logger || Travis::Surveillance::Logger.method(:log)
     end
 
+    def self.mock!
+      @mock = true
+    end
+
+    def self.mocking?
+      @mock || false
+    end
+
     class Spy
       attr_accessor :project
 
@@ -52,7 +60,11 @@ module Travis
       end
 
       def quick_reconnaissance
-        JSON.parse(open("http://travis-ci.org/#{project}.json").read)
+        if Travis::Surveillance.mocking?
+          JSON.parse(IO.read(File.dirname(__FILE__) + "/../../spec/support/projects/#{project.gsub('/', '-')}.json"))
+        else
+          JSON.parse(open("http://travis-ci.org/#{project}.json").read)
+        end
       end
     end
   end

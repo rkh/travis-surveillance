@@ -13,6 +13,7 @@ module TestLogger
 end
 
 Travis::Surveillance.instrument_with(TestLogger.method(:log))
+Travis::Surveillance.mock!
 
 # "".deindent from https://github.com/visionmedia/terminal-table/blob/master/spec/spec_helper.rb
 
