@@ -38,6 +38,7 @@ module Travis
         json = JSON.parse(payload)
         return unless json['repository']['id'] == @project.id
 
+        Travis::Surveillance.log({ surveyor: true, build: true, started: true, id: json['build']['id'] })
         @project.add_build(json['build'])
       end
 
@@ -46,9 +47,12 @@ module Travis
         return unless json['repository']['id'] == @project.id
 
         if build = @project.build_for(json['build']['id'])
+          Travis::Surveillance.log({ surveyor: true, build: true, finished: true, id: json['build']['id'] })
           @project.status = build.status = json['build']['result']
         else
-          @project.add_build(json)
+          Travis::Surveillance.log({ surveyor: true, build: true, missing: true, finished: true, id: json['build']['id'] })
+          build = @project.add_build(json)
+          @project.status = json['build']['result']
         end
       end
 
@@ -57,6 +61,7 @@ module Travis
         return unless json['repository_id'] == @project.id
 
         if build = @project.build_for(json['build_id'])
+          Travis::Surveillance.log({ surveyor: true, job: true, started: true, id: json['id'], build_id: json['build_id'] })
           build.add_job(json)
         else
           # @project.add_build({id: json['build_id'])
@@ -69,6 +74,7 @@ module Travis
 
         if build = @project.build_for(json['build_id'])
           if job = build.job_for(json['id'])
+            Travis::Surveillance.log({ surveyor: true, job: true, finished: true, id: json['id'], build_id: json['build_id'] })
             job.status = json['result']
           else
             build.add_job(json)
