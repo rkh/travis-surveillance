@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Travis::Surveillance::VERSION
 
   gem.add_dependency "clamp", "~> 0.3.0"
+  gem.add_dependency "json", "~> 1.7" if RUBY_PLATFORM == "java"
   gem.add_dependency "rake", "~> 0.9.0"
   gem.add_dependency "scrolls", "~> 0.2.1"
   gem.add_dependency "simplecov", "~> 0.6"
