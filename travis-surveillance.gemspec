@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Travis::Surveillance::VERSION
 
-  gem.add_dependency "clamp", "~> 0.3.0"
+  gem.add_dependency "clamp", "~> 0.4"
   gem.add_dependency "json", "~> 1.7" if RUBY_PLATFORM == "java"
   gem.add_dependency "pusher-client-merman", "~> 0.2"
   gem.add_dependency "rake", "~> 0.9.0"
