@@ -18,5 +18,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency "clamp", "~> 0.3.0"
   gem.add_dependency "rake", "~> 0.9.0"
   gem.add_dependency "scrolls", "~> 0.2.1"
+  gem.add_dependency "simplecov", "~> 0.6"
   gem.add_dependency "terminal-table", "~> 1.4"
 end

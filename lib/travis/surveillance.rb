@@ -1,3 +1,6 @@
+require "json"
+require "open-uri"
+
 require "travis/surveillance/version"
 
 module Travis
@@ -39,6 +42,18 @@ module Travis
     # Returns an Object
     def self.logger
       @logger || Travis::Surveillance::Logger.method(:log)
+    end
+
+    class Spy
+      attr_accessor :project
+
+      def initialize(project)
+        @project = project
+      end
+
+      def quick_reconnaissance
+        JSON.parse(open("http://travis-ci.org/#{project}.json").read)
+      end
     end
   end
 end
