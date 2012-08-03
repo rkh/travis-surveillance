@@ -13,3 +13,11 @@ module TestLogger
 end
 
 Travis::Surveillance.instrument_with(TestLogger.method(:log))
+
+# "".deindent from https://github.com/visionmedia/terminal-table/blob/master/spec/spec_helper.rb
+
+class String
+  def deindent
+    strip.gsub(/^ */, '')
+  end
+end
