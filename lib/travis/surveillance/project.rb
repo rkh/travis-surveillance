@@ -14,7 +14,7 @@ module Travis
           return build
         end
 
-        build = Build.from_json(json, @id)
+        build = Build.from_json(json, self)
         builds << build
         build
       end
