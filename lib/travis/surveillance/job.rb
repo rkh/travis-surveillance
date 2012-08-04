@@ -1,21 +1,25 @@
 module Travis
   module Surveillance
     class Job
-      attr_accessor :id, :build, :number, :status
-
-      def self.from_json(json, build)
-        new({
-          'id'       => json['id'],
-          'build'    => build,
-          'status'   => json['result']
-        })
-      end
+      ATTRIBUTES = [:build, :finished_at, :id, :number, :started_at, :status]
+      attr_accessor *ATTRIBUTES
 
       def initialize(attributes = {})
-        @id       = attributes['id']
-        @build    = attributes['build']
-        @status   = attributes['status']
+        ATTRIBUTES.each do |attr|
+          send("#{attr}=", attributes[attr.to_s]) if attributes[attr.to_s]
+        end
+
         populate
+      end
+
+      def duration
+        if started_at && finished_at
+          finished_at - started_at
+        elsif started_at
+          Time.now - started_at
+        else
+          0
+        end
       end
 
       def failed?
@@ -52,7 +56,9 @@ module Travis
 
       def populate
         details = get_details
-        @number = details['number']
+        ATTRIBUTES.each do |attr|
+          send("#{attr}=", details[attr.to_s]) if details[attr.to_s]
+        end
       end
     end
   end

@@ -14,7 +14,7 @@ module Travis
           return build
         end
 
-        build = Build.from_json(json, self)
+        build = Build.new(json.merge({'project' => self}))
         builds << build
         build
       end

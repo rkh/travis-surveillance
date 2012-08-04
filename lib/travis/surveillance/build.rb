@@ -1,22 +1,16 @@
 module Travis
   module Surveillance
     class Build
-      attr_accessor :id, :number, :project, :status
-
-      def self.from_json(json, project = nil)
-        new({
-          'id'         => json['id'],
-          'number'     => json['number'],
-          'project' => project,
-          'status'     => json['status']
-        })
-      end
+      ATTRIBUTES = [:author_name, :branch, :commit, :committed_at, :committer_name,
+        :compare_url, :duration, :finished_at, :id, :message, :number, :project,
+        :started_at, :status]
+      attr_accessor *ATTRIBUTES
 
       def initialize(attributes = {})
-        @id         = attributes['id']
-        @number     = attributes['number']
-        @project    = attributes['project']
-        @status     = attributes['status']
+        ATTRIBUTES.each do |attr|
+          send("#{attr}=", attributes[attr.to_s]) if attributes[attr.to_s]
+        end
+
         populate unless @number
       end
 
@@ -25,7 +19,7 @@ module Travis
           return job
         end
 
-        job = Job.from_json(json, self)
+        job = Job.new(json.merge({'build' => self}))
         jobs << job
         job
       end
@@ -72,9 +66,9 @@ module Travis
 
       def populate
         details = get_details
-        @id          = details['id']
-        @number      = details['number']
-        @status      = details['status']
+        ATTRIBUTES.each do |attr|
+          send("#{attr}=", details[attr.to_s]) if details[attr.to_s]
+        end
       end
     end
   end
