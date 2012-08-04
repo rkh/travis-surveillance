@@ -37,13 +37,14 @@ module Travis
           end
 
           surveyor = Travis::Surveillance::Surveyor.new(Travis::Surveillance::Project.new(project))
-          Thread.new do
-            surveyor.survey
-          end
 
           project = surveyor.project
+          print "\x1b[2J\x1b[H"
+          print "Project: #{project.owner}/#{project.name}\n\n"
+          print "\x1b[H"
+          $stdout.flush
 
-          loop do
+          surveyor.survey do
             print "\x1b[2J\x1b[H"
             print "Project: #{project.owner}/#{project.name}\n\n"
 
@@ -74,7 +75,6 @@ module Travis
 
             print "\x1b[H"
             $stdout.flush
-            sleep 10
           end
         end
       end

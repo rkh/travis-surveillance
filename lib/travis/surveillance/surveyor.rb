@@ -15,20 +15,24 @@ module Travis
         @socket   = PusherClient::Socket.new(pusher_token)
       end
 
-      def survey
+      def survey(&block)
         @socket.subscribe('common')
 
         @socket['common'].bind('build:started') do |payload|
           payload_to_new_build(payload)
+          yield if block_given?
         end
         @socket['common'].bind('build:finished') do |payload|
           payload_to_finished_build(payload)
+          yield if block_given?
         end
         @socket['common'].bind('job:started') do |payload|
           payload_to_job_started(payload)
+          yield if block_given?
         end
         @socket['common'].bind('job:finished') do |payload|
           payload_to_job_finished(payload)
+          yield if block_given?
         end
 
         @socket.connect unless Travis::Surveillance.mocking?
