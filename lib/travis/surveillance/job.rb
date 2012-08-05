@@ -1,15 +1,45 @@
 module Travis
   module Surveillance
     class Job
-      ATTRIBUTES = [:build, :finished_at, :id, :number, :started_at, :status]
-      attr_accessor *ATTRIBUTES
+      class Config
+        ATTRIBUTES = [:env, :rvm]
+        attr_accessor *ATTRIBUTES
 
-      def initialize(attributes = {})
-        ATTRIBUTES.each do |attr|
-          send("#{attr}=", attributes[attr.to_s]) if attributes[attr.to_s]
+        def initialize(attrs = {})
+          self.attributes = attrs
         end
 
+        def attributes=(attrs = {})
+          attrs.each do |key, value|
+            send("#{key}=", value) if ATTRIBUTES.include?(key.to_sym)
+          end
+        end
+      end
+
+      ATTRIBUTES = [:build, :finished_at, :id, :number, :result, :started_at]
+      attr_accessor *ATTRIBUTES
+
+      alias_method :status, :result
+      alias_method :status=, :result=
+
+      def initialize(attrs = {})
+        self.attributes = attrs
+
         populate
+      end
+
+      def attributes=(attrs = {})
+        attrs.each do |key, value|
+          if key == 'config'
+            config.attributes = value
+          else
+            send("#{key}=", (key[/_at$/] ? Time.parse(value) : value)) if ATTRIBUTES.include?(key.to_sym)
+          end
+        end
+      end
+
+      def config
+        @config ||= Config.new
       end
 
       def duration
@@ -18,7 +48,7 @@ module Travis
         elsif started_at
           Time.now - started_at
         else
-          0
+          nil
         end
       end
 
@@ -55,10 +85,7 @@ module Travis
       end
 
       def populate
-        details = get_details
-        ATTRIBUTES.each do |attr|
-          send("#{attr}=", details[attr.to_s]) if details[attr.to_s]
-        end
+        self.attributes = get_details
       end
     end
   end

@@ -51,9 +51,9 @@ module Travis
             if project.builds.any? && builds = project.builds.sort_by { |b| b.id }.reverse
               latest = builds.first
 
-              table = Terminal::Table.new :title => "Latest Build: #{latest.number}", :headings => ['Job', 'State'] do |t|
+              table = Terminal::Table.new :title => "Latest Build: #{latest.number}", :headings => ['Job', 'State', 'Duration', 'ENV'] do |t|
                 latest.jobs.each do |job|
-                  t << [job.number, job.state]
+                  t << [job.number, job.state, job.duration, job.config.env]
                 end
               end
 
@@ -62,10 +62,10 @@ module Travis
               if builds.size > 1
                 print "\n\n"
 
-                table = Terminal::Table.new :title => "Build History", :headings => ['Build', 'State'] do |t|
+                table = Terminal::Table.new :title => "Build History", :headings => ['Build', 'State', 'Branch', 'Message', 'Duration'] do |t|
                   builds.each do |build|
                     next if build == latest
-                    t << [build.number, build.state]
+                    t << [build.number, build.state, build.branch, build.message, build.duration]
                   end
                 end
 

@@ -77,7 +77,8 @@ module Travis
         return unless build
 
         Travis::Surveillance.log({ surveyor: true, build: true, finished: true, id: build.id })
-        @project.status = build.status = json['build']['result']
+        build.attributes = json['build']
+        @project.status = build.status
       end
 
       def payload_to_job_started(payload)
@@ -98,7 +99,7 @@ module Travis
         end
 
         Travis::Surveillance.log({ surveyor: true, job: true, finished: true, id: json['id'], build_id: build.id })
-        job.status = json['result']
+        job.attributes = json
       end
     end
   end

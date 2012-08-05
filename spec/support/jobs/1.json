@@ -1,5 +1,10 @@
 {
   "id":1,
   "number":"1.1",
-  "status":null
+  "started_at":"2012-08-04T13:28:29Z",
+  "config": {
+    "env":"NO_SIMPLECOV=true",
+    "rvm":"1.9.3"
+  },
+  "result":null
 }
