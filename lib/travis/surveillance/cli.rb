@@ -59,7 +59,7 @@ module Travis
               print "\n\n"
 
               table = Terminal::Table.new title: "Build Matrix", headings: ['Job', 'State', 'Duration', 'Runtime', 'ENV'], style: { width: 120 } do |t|
-                latest.jobs.sort_by { |j| b.id }.each do |job|
+                latest.jobs.sort_by { |j| j.id }.each do |job|
                   t << [job.number, job.state, job.duration, job.runtime, job.config.env]
                 end
               end
