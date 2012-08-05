@@ -58,7 +58,7 @@ module Travis
               print "Author: #{latest.author_name}\n"
               print "Message: #{latest.message}\n\n"
 
-              table = Terminal::Table.new :title => "Build Matrix: #{latest.number}", :headings => ['Job', 'State', 'Duration', 'ENV'] do |t|
+              table = Terminal::Table.new :title => "Build Matrix", :headings => ['Job', 'State', 'Duration', 'ENV'] do |t|
                 latest.jobs.each do |job|
                   t << [job.number, job.state, job.duration, job.config.env]
                 end
