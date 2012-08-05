@@ -46,12 +46,19 @@ module Travis
 
           surveyor.survey do
             print "\x1b[2J\x1b[H"
-            print "Project: #{project.owner}/#{project.name}\n\n"
+            print "Project: #{project.owner}/#{project.name}\n"
 
             if project.builds.any? && builds = project.builds.sort_by { |b| b.id }.reverse
               latest = builds.first
 
-              table = Terminal::Table.new :title => "Latest Build: #{latest.number}", :headings => ['Job', 'State', 'Duration', 'ENV'] do |t|
+              print "Build: #{latest.number}\n"
+              print "Duration: #{latest.duration}\n" unless latest.building?
+              print "Branch: #{latest.branch}\n"
+              print "Commit: #{latest.commit} (#{latest.compare_url})\n"
+              print "Author: #{latest.author_name}\n"
+              print "Message: #{latest.message}\n\n"
+
+              table = Terminal::Table.new :title => "Build Matrix: #{latest.number}", :headings => ['Job', 'State', 'Duration', 'ENV'] do |t|
                 latest.jobs.each do |job|
                   t << [job.number, job.state, job.duration, job.config.env]
                 end
