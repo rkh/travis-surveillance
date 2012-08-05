@@ -72,7 +72,7 @@ module Travis
                 table = Terminal::Table.new :title => "Build History", :headings => ['Build', 'State', 'Branch', 'Message', 'Duration'], style: { width: 120 } do |t|
                   builds.each do |build|
                     next if build == latest
-                    t << [build.number, build.state, build.branch, build.message, build.duration]
+                    t << [build.number, build.state, build.branch, (build.message > 50 ? "#{build.message[0..50]} ..." : build.message), build.duration]
                   end
                 end
 
