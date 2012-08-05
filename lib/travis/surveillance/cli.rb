@@ -38,27 +38,26 @@ module Travis
 
           surveyor = Travis::Surveillance::Surveyor.new(Travis::Surveillance::Project.new(project))
 
-          project = surveyor.project
-          print "\x1b[2J\x1b[H"
-          print "Project: #{project.owner}/#{project.name}\n\n"
-          print "\x1b[H"
-          $stdout.flush
-
           surveyor.survey do
-            print "\x1b[2J\x1b[H"
-            print "Project: #{project.owner}/#{project.name}\n"
-
             if project.builds.any? && builds = project.builds.sort_by { |b| b.id }.reverse
+              print "\x1b[2J\x1b[H"
+
               latest = builds.first
 
-              print "Build: #{latest.number}\n"
-              print "Duration: #{latest.duration}\n" unless latest.building?
-              print "Branch: #{latest.branch}\n"
-              print "Commit: #{latest.commit} (#{latest.compare_url})\n"
-              print "Author: #{latest.author_name}\n"
-              print "Message: #{latest.message}\n\n"
+              table = Terminal::Table.new title: "#{project.owner}/#{project.name}", style: { width: 120 } do |t|
+                t << ["Build", latest.number]
+                t << ["Duration", latest.duration] unless latest.building?
+                t << ["Branch", latest.branch]
+                t << ["Commit", latest.commit]
+                t << ["Compare URL", latest.compare_url]
+                t << ["Author", latest.author_name]
+                t << ["Message", latest.message.length > 100 ? "#{latest.message[0..100]} ..." : latest.message]
+              end
 
-              table = Terminal::Table.new :title => "Build Matrix", :headings => ['Job', 'State', 'Duration', 'ENV'] do |t|
+              print table
+              print "\n\n"
+
+              table = Terminal::Table.new title: "Build Matrix", headings: ['Job', 'State', 'Duration', 'ENV'], style: { width: 120 } do |t|
                 latest.jobs.each do |job|
                   t << [job.number, job.state, job.duration, job.config.env]
                 end
@@ -69,7 +68,7 @@ module Travis
               if builds.size > 1
                 print "\n\n"
 
-                table = Terminal::Table.new :title => "Build History", :headings => ['Build', 'State', 'Branch', 'Message', 'Duration'] do |t|
+                table = Terminal::Table.new :title => "Build History", :headings => ['Build', 'State', 'Branch', 'Message', 'Duration'], style: { width: 120 } do |t|
                   builds.each do |build|
                     next if build == latest
                     t << [build.number, build.state, build.branch, build.message, build.duration]
