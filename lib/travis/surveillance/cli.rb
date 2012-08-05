@@ -60,7 +60,7 @@ module Travis
 
               table = Terminal::Table.new title: "Build Matrix", headings: ['Job', 'State', 'Duration', 'Runtime', 'ENV'], style: { width: 120 } do |t|
                 latest.jobs.each do |job|
-                  t << [job.number, job.state, job.duration, job.config.runtime, job.config.env]
+                  t << [job.number, job.state, job.duration, job.runtime, job.config.env]
                 end
               end
 
