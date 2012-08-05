@@ -2,6 +2,8 @@
 
 > I'll work anytime, anywhere.
 
+[![Build Status](https://secure.travis-ci.org/dylanegan/travis-surveillance.png?branch=master)](http://travis-ci.org/dylanegan/travis-surveillance)
+
 ## Installation
 
 ```
