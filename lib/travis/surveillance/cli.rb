@@ -52,7 +52,7 @@ module Travis
                 t << ["Commit", latest.commit]
                 t << ["Compare URL", latest.compare_url]
                 t << ["Author", latest.author_name]
-                t << ["Message", latest.message.length > 70 ? "#{latest.message[0..70]} ..." : latest.message]
+                t << ["Message", latest.message.length > 80 ? "#{latest.message[0..80]} ..." : latest.message]
               end
 
               print table
