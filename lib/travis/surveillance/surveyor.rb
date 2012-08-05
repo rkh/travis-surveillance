@@ -67,7 +67,7 @@ module Travis
         return unless json = parse_and_check(payload)
 
         unless build = @project.build_for(json['build']['id'])
-          Travis::Surveillance.log({ surveyor: true, build: true, started: true, id: json['build']['id'] })
+          Travis::Surveillance.log({ surveyor: true, build: true, started: true, id: json['build']['id'], number: json['build']['number'] })
           @project.add_build(json['build'])
         end
       end
@@ -76,7 +76,7 @@ module Travis
         json, build = parse_and_check_and_build(payload)
         return unless build
 
-        Travis::Surveillance.log({ surveyor: true, build: true, finished: true, id: build.id })
+        Travis::Surveillance.log({ surveyor: true, build: true, finished: true, id: build.id, number: build.number })
         build.attributes = json['build']
         @project.status = build.status
       end
