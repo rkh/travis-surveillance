@@ -37,6 +37,7 @@ module Travis
           end
 
           surveyor = Travis::Surveillance::Surveyor.new(Travis::Surveillance::Project.new(project))
+          project = surveyor.project
 
           surveyor.survey do
             if project.builds.any? && builds = project.builds.sort_by { |b| b.id }.reverse
