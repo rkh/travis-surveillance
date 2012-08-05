@@ -28,6 +28,14 @@ describe Travis::Surveillance::Surveyor do
       @project.builds.last.jobs.last.running?.must_equal true
     end
 
+    it "should handle multiple job:started" do
+      @surveyor.socket.simulate_received('build:started', pusher_json_for(@project.slug, 'build:started'), 'common')
+      @surveyor.socket.simulate_received('job:started', pusher_json_for(@project.slug, 'job:started'), 'common')
+      @surveyor.socket.simulate_received('job:started', pusher_json_for(@project.slug, 'job:started:2'), 'common')
+      @project.builds.last.jobs.first.runtime.must_equal "ruby 1.9.3"
+      @project.builds.last.jobs.last.runtime.must_equal "ruby 1.9.2"
+    end
+
     it "should handle job:finished" do
       @surveyor.socket.simulate_received('build:started', pusher_json_for(@project.slug, 'build:started'), 'common')
       @surveyor.socket.simulate_received('job:started', pusher_json_for(@project.slug, 'job:started'), 'common')

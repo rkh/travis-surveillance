@@ -67,8 +67,8 @@ module Travis
 
       def runtime
         return @runtime if @runtime
-        @runtime = build.config.language
-        case build.config.language
+        @runtime = build.config.language.dup
+        case @runtime
         when "ruby"
           @runtime << " #{config.rvm}"
         end
