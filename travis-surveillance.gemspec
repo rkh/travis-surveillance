@@ -4,8 +4,8 @@ require File.expand_path('../lib/travis/surveillance/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Dylan Egan"]
   gem.email         = ["dylanegan@gmail.com"]
-  gem.description   = %q{}
-  gem.summary       = %q{}
+  gem.description   = %q{Veille sur un projet.}
+  gem.summary       = %q{Veille sur un projet.}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
