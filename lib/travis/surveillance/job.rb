@@ -30,6 +30,7 @@ module Travis
 
       def attributes=(attrs = {})
         attrs.each do |key, value|
+          next if value.nil?
           if key == 'config'
             config.attributes = value
           else
