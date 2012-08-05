@@ -25,7 +25,7 @@ describe Travis::Surveillance::Job do
     end
 
     it "should have a runtime" do
-      @job.runtime.must_equal "1.9.3"
+      @job.runtime.must_equal "ruby 1.9.3"
     end
 
     it "should have a started_at" do
