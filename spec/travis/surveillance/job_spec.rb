@@ -24,6 +24,10 @@ describe Travis::Surveillance::Job do
       @job.number.must_equal "1.1"
     end
 
+    it "should have a runtime" do
+      @job.runtime.must_equal "1.9.3"
+    end
+
     it "should have a started_at" do
       @job.started_at.must_equal Time.parse("2012-08-04T13:28:29Z")
     end

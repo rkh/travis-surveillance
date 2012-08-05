@@ -65,6 +65,13 @@ module Travis
         status.nil?
       end
 
+      def runtime
+        case build.config.language
+        when "ruby"
+          config.rvm
+        end
+      end
+
       def state
         if running?
           'running'
