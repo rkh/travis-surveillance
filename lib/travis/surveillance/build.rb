@@ -26,7 +26,7 @@ module Travis
       def initialize(attrs = {})
         self.attributes = attrs
 
-        populate unless @number
+        populate
       end
 
       def add_job(json)
