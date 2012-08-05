@@ -16,6 +16,8 @@ $ gem install travis-surveillance
 travis-surveillance --projects dylanegan/travis-surveillance
 ```
 
+![](https://github.com/dylanegan/travis-surveillance/raw/master/travis-surveillance-output.png)
+
 ## License
 
 Copyright (c) 2012 Dylan Egan
