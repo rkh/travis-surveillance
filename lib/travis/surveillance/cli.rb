@@ -52,7 +52,7 @@ module Travis
                 t << ["Commit", latest.commit]
                 t << ["Compare URL", latest.compare_url]
                 t << ["Author", latest.author_name]
-                t << ["Message", latest.message.length > 80 ? "#{latest.message[0..80]} ..." : latest.message]
+                t << ["Message", latest.message.length > 80 ? "#{latest.message[0..80]}..." : latest.message]
               end
 
               print table
@@ -72,7 +72,7 @@ module Travis
                 table = Terminal::Table.new :title => "Build History", :headings => ['Build', 'State', 'Branch', 'Message', 'Duration'], style: { width: 120 } do |t|
                   builds.each do |build|
                     next if build == latest
-                    t << [build.number, build.state, build.branch, (build.message.length > 30 ? "#{build.message[0..30]} ..." : build.message), build.duration]
+                    t << [build.number, build.state, build.branch, (build.message.length > 30 ? "#{build.message[0..30]}..." : build.message), build.duration]
                   end
                 end
 
