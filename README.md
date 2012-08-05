@@ -4,21 +4,16 @@
 
 [![Build Status](https://secure.travis-ci.org/dylanegan/travis-surveillance.png?branch=master)](http://travis-ci.org/dylanegan/travis-surveillance)
 
-## Installation
+----------
 
 ```
 $ gem install travis-surveillance
-```
-
-## Usage
-
-```
-travis-surveillance --projects dylanegan/travis-surveillance
+$ travis-surveillance --projects dylanegan/travis-surveillance
 ```
 
 ![](https://github.com/dylanegan/travis-surveillance/raw/master/travis-surveillance-output.png)
 
-## License
+----------
 
 Copyright (c) 2012 Dylan Egan
 
