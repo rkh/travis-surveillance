@@ -66,10 +66,13 @@ module Travis
       end
 
       def runtime
+        return @runtime if @runtime
+        @runtime = build.config.language
         case build.config.language
         when "ruby"
-          config.rvm
+          @runtime << " #{config.rvm}"
         end
+        @runtime
       end
 
       def state
