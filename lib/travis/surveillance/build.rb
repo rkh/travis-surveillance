@@ -33,6 +33,7 @@ module Travis
 
         job = Job.new(json.merge({'build' => self}))
         jobs << job
+        jobs.sort_by! { |j| j.id }
         job
       end
 
