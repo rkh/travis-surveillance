@@ -96,7 +96,7 @@ module Travis
       def populate
         self.attributes = details = get_details
 
-        get_builds.reverse.each do |build_json|
+        get_builds[0..9].reverse.each do |build_json|
           add_build(build_json)
         end if details['last_build_id']
       end
