@@ -1,7 +1,7 @@
 require "json"
 require "open-uri"
 
-gem "pusher-client-merman"
+gem "pusher-client-merman" # https://github.com/pusher/pusher-ruby-client/issues/4
 require "pusher-client"
 PusherClient.logger.level = Logger::INFO
 
