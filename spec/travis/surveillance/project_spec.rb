@@ -25,6 +25,13 @@ describe Travis::Surveillance::Project do
     @project.url.must_equal "http://travis-ci.org/dylanegan/travis-surveillance"
   end
 
+  it "should limit the stored builds to 10" do
+    @project.stub :build_for, nil do
+      21.times { @project.add_build({ 'id' => 1 }) }
+      @project.builds.size.must_equal 10
+    end
+  end
+
   describe "with history" do
     before do
       @history = Travis::Surveillance::Project.new("dylanegan/travis-surveillance-existing")

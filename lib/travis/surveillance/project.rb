@@ -1,5 +1,15 @@
 module Travis
   module Surveillance
+    class Builds < Array
+      def <<(item)
+        super
+
+        # A bit expensive, but for now it'll do.
+        self.sort_by! { |i| i.id }
+        self.slice!(0..-11) if self.size > 10
+      end
+    end
+
     class Project
       ATTRIBUTES = [:description, :id, :slug]
       attr_accessor *ATTRIBUTES
@@ -22,7 +32,6 @@ module Travis
 
         build = Build.new(json.merge({'project' => self}))
         builds << build
-        builds.sort_by! { |b| b.id }
         build
       end
 
@@ -35,7 +44,7 @@ module Travis
       end
 
       def builds
-        @builds ||= []
+        @builds ||= Builds.new
       end
 
       def failed?
