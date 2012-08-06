@@ -93,7 +93,13 @@ module Travis
       end
 
       def populate
-        self.attributes = get_details
+        self.attributes = get_details unless satisfied?
+      end
+
+      def satisfied?
+        ATTRIBUTES.each do |attr|
+          return false if ![:finished_at, :result].include?(attr) && send(attr).nil?
+        end
       end
     end
   end

@@ -41,6 +41,10 @@ module Travis
           next if value.nil?
           if key == 'config'
             config.attributes = value
+          elsif key == 'matrix'
+            value.each do |job|
+              add_job(job)
+            end
           else
             send("#{key}=", (key[/_at$/] ? Time.parse(value) : value)) if ATTRIBUTES.include?(key.to_sym)
           end

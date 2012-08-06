@@ -12,7 +12,11 @@
   "committed_at":"2012-08-04T13:28:22Z",
   "author_name":"Dylan Egan",
   "committer_name":"Dylan Egan",
-  "result":0
+  "result":0,
+  "matrix": [{
+    "id":11,
+    "number":"11.1"
+  }]
 }, {
   "id":12,
   "number":"2",
@@ -27,5 +31,9 @@
   "committed_at":"2012-08-04T13:38:22Z",
   "author_name":"Dylan Egan",
   "committer_name":"Dylan Egan",
-  "result":0
+  "result":0,
+  "matrix": [{
+    "id":12,
+    "number":"12.1"
+  }]
 }]

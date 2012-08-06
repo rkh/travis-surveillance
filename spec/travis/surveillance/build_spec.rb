@@ -60,6 +60,18 @@ describe Travis::Surveillance::Build do
     end
   end
 
+  describe "with history" do
+    before do
+      @history = Travis::Surveillance::Project.new("dylanegan/travis-surveillance-existing")
+      @build = @history.add_build({'id' => 11})
+    end
+
+    it "should have jobs" do
+      @build.jobs.wont_be_empty
+      @build.jobs.first.id.must_equal 11
+    end
+  end
+
   describe "a finished build" do
     before do
       @surveyor = Travis::Surveillance::Surveyor.new(@project)
