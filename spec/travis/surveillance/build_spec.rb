@@ -75,15 +75,15 @@ describe Travis::Surveillance::Build do
       @build.finished_at.must_equal Time.parse("2012-08-04T13:28:59Z")
     end
 
-    it "should have a status" do
-      @build.status.must_equal 1
+    it "should have a result" do
+      @build.result.must_equal 1
     end
   end
 
-  describe "status" do
+  describe "result" do
     describe "when nil" do
       before do
-        @build.status = nil
+        @build.result = nil
       end
 
       it "should be building" do
@@ -95,7 +95,7 @@ describe Travis::Surveillance::Build do
 
     describe "when zero" do
       before do
-        @build.status = 0
+        @build.result = 0
       end
 
       it "should have passed" do
@@ -107,7 +107,7 @@ describe Travis::Surveillance::Build do
 
     describe "when one" do
       before do
-        @build.status = 1
+        @build.result = 1
       end
 
       it "should have failed" do

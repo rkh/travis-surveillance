@@ -78,7 +78,6 @@ module Travis
 
         Travis::Surveillance.log({ surveyor: true, build: true, finished: true, id: build.id, number: build.number })
         build.attributes = json['build']
-        @project.status = build.status
       end
 
       def payload_to_job_started(payload)

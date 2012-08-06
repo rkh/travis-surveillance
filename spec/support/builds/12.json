@@ -1,0 +1,16 @@
+{
+  "id":12,
+  "number":"2",
+  "config":{
+    "language":"ruby"
+  },
+  "started_at":"2012-08-04T13:38:29Z",
+  "commit":"asklj23289dd0983212019dhkjsdlkj290820329",
+  "branch":"master",
+  "message":"Second Build",
+  "compare_url":"https://github.com/dylanegan/travis-surveillance/compare/af0d1c46e019...asklj23289dd",
+  "committed_at":"2012-08-04T13:38:22Z",
+  "author_name":"Dylan Egan",
+  "committer_name":"Dylan Egan",
+  "result":0
+}

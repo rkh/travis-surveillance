@@ -19,9 +19,6 @@ module Travis
       ATTRIBUTES = [:build, :finished_at, :id, :number, :result, :started_at]
       attr_accessor *ATTRIBUTES
 
-      alias_method :status, :result
-      alias_method :status=, :result=
-
       def initialize(attrs = {})
         self.attributes = attrs
 
@@ -54,15 +51,15 @@ module Travis
       end
 
       def failed?
-        !status.nil? && !passed?
+        !result.nil? && !passed?
       end
 
       def passed?
-        !status.nil? && status.zero?
+        !result.nil? && result.zero?
       end
 
       def running?
-        status.nil?
+        result.nil?
       end
 
       def runtime

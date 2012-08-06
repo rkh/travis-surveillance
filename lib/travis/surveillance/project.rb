@@ -1,12 +1,18 @@
 module Travis
   module Surveillance
     class Project
-      attr_accessor :description, :id, :name, :owner, :slug, :status
+      ATTRIBUTES = [:description, :id, :slug]
+      attr_accessor *ATTRIBUTES
 
-      def initialize(name)
-        @owner, @name = name.split('/')
-        @slug         = name
+      def initialize(slug)
+        self.attributes = { 'slug' => slug }
         populate
+      end
+
+      def attributes=(attrs = {})
+        attrs.each do |key, value|
+          send("#{key}=", value) if ATTRIBUTES.include?(key.to_sym)
+        end
       end
 
       def add_build(json)
@@ -16,6 +22,7 @@ module Travis
 
         build = Build.new(json.merge({'project' => self}))
         builds << build
+        builds.sort_by! { |b| b.id }
         build
       end
 
@@ -39,6 +46,18 @@ module Travis
         !status.nil? && status.zero?
       end
 
+      def name
+        @name ||= @slug.split('/')[1]
+      end
+
+      def owner
+        @owner ||= @slug.split('/')[0]
+      end
+
+      def status
+        builds.last.result if builds.any?
+      end
+
       def url
         @url ||= "http://travis-ci.org/#{@slug}"
       end
@@ -53,11 +72,24 @@ module Travis
         end
       end
 
+      def get_builds
+        if Travis::Surveillance.mocking?
+          if File.exists?(File.dirname(__FILE__) + "/../../../spec/support/builds/#{slug.gsub('/', '-')}.json")
+            JSON.parse(IO.read(File.dirname(__FILE__) + "/../../../spec/support/builds/#{slug.gsub('/', '-')}.json"))
+          else
+            []
+          end
+        else
+          JSON.parse(open("http://travis-ci.org/#{slug}/builds.json").read)
+        end
+      end
+
       def populate
-        details = get_details
-        @description = details['description']
-        @id          = details['id']
-        @status      = details['last_build_status']
+        self.attributes = details = get_details
+
+        get_builds.reverse.each do |build_json|
+          add_build(build_json)
+        end if details['last_build_id']
       end
     end
   end

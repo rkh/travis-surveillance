@@ -48,15 +48,15 @@ describe Travis::Surveillance::Job do
       @job.finished_at.must_equal Time.parse("2012-08-04T13:28:59Z")
     end
 
-    it "should have a status" do
-      @job.status.must_equal 1
+    it "should have a result" do
+      @job.result.must_equal 1
     end
   end
 
-  describe "status" do
+  describe "result" do
     describe "when nil" do
       before do
-        @job.status = nil
+        @job.result = nil
       end
 
       it "should be running" do
@@ -68,7 +68,7 @@ describe Travis::Surveillance::Job do
 
     describe "when zero" do
       before do
-        @job.status = 0
+        @job.result = 0
       end
 
       it "should have passed" do
@@ -80,7 +80,7 @@ describe Travis::Surveillance::Job do
 
     describe "when one" do
       before do
-        @job.status = 1
+        @job.result = 1
       end
 
       it "should have failed" do

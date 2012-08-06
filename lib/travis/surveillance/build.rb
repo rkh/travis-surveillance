@@ -20,9 +20,6 @@ module Travis
         :result, :started_at]
       attr_accessor *ATTRIBUTES
 
-      alias_method :status, :result
-      alias_method :status=, :result=
-
       def initialize(attrs = {})
         self.attributes = attrs
 
@@ -51,7 +48,7 @@ module Travis
       end
 
       def building?
-        status.nil?
+        result.nil?
       end
 
       def config
@@ -69,7 +66,7 @@ module Travis
       end
 
       def failed?
-        !status.nil? && !passed?
+        !result.nil? && !passed?
       end
 
       def job_for(id)
@@ -81,7 +78,7 @@ module Travis
       end
 
       def passed?
-        !status.nil? && status.zero?
+        !result.nil? && result.zero?
       end
 
       def state
@@ -109,7 +106,13 @@ module Travis
       end
 
       def populate
-        self.attributes = get_details
+        self.attributes = get_details unless satisfied?
+      end
+
+      def satisfied?
+        ATTRIBUTES.each do |attr|
+          return false if ![:finished_at, :result].include?(attr) && send(attr).nil?
+        end
       end
     end
   end
