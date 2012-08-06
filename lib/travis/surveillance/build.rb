@@ -94,6 +94,10 @@ module Travis
         end
       end
 
+      def url
+        @url ||= project.url + "/builds/#{@id}"
+      end
+
       private
 
       def get_details

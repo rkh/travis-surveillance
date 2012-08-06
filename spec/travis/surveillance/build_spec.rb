@@ -54,6 +54,10 @@ describe Travis::Surveillance::Build do
     it "should have a started_at" do
       @build.started_at.must_equal Time.parse("2012-08-04T13:28:29Z")
     end
+
+    it "should have a url" do
+      @build.url.must_equal "http://travis-ci.org/dylanegan/travis-surveillance/builds/1"
+    end
   end
 
   describe "a finished build" do

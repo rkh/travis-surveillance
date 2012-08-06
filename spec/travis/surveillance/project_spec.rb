@@ -25,6 +25,10 @@ describe Travis::Surveillance::Project do
     @project.status.must_equal 0
   end
 
+  it "should have a url" do
+    @project.url.must_equal "http://travis-ci.org/dylanegan/travis-surveillance"
+  end
+
   describe "status" do
     describe "when nil" do
       before do

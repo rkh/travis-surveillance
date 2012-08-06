@@ -39,6 +39,10 @@ module Travis
         !status.nil? && status.zero?
       end
 
+      def url
+        @url ||= "http://travis-ci.org/#{@slug}"
+      end
+
       private
 
       def get_details
