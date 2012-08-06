@@ -16,6 +16,13 @@ describe Travis::Surveillance::Surveyor do
       @project.builds.last.number.must_equal "1"
     end
 
+    it "should handle build:started when over 10 builds" do
+      @surveyor.socket.simulate_received('build:started', pusher_json_for(@project.slug, 'build:started'), 'common')
+      10.times { |i| @project.add_build({ 'id' => i + 21 }) }
+      @surveyor.socket.simulate_received('build:started', pusher_json_for(@project.slug, 'build:started:31'), 'common')
+      @project.builds.last.number.must_equal "31"
+    end
+
     it "should handle build:finished" do
       @surveyor.socket.simulate_received('build:started', pusher_json_for(@project.slug, 'build:started'), 'common')
       @surveyor.socket.simulate_received('build:finished', pusher_json_for(@project.slug, 'build:finished'), 'common')

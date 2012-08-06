@@ -27,7 +27,7 @@ describe Travis::Surveillance::Project do
 
   it "should limit the stored builds to 10" do
     @project.stub :build_for, nil do
-      21.times { @project.add_build({ 'id' => 1 }) }
+      11.times { |i| @project.add_build({ 'id' => i + 21 }) }
       @project.builds.size.must_equal 10
     end
   end
