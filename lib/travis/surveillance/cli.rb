@@ -46,7 +46,7 @@ module Travis
               latest = builds.first
 
               table = Terminal::Table.new title: "#{project.owner}/#{project.name}", style: { width: 120 } do |t|
-                t << ["Build", latest.number]
+                t << ["Build", "#{latest.number} (#{latest.url})"]
                 t << ["Duration", latest.duration] unless latest.building?
                 t << ["Branch", latest.branch]
                 t << ["Commit", latest.commit]
