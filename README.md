@@ -8,7 +8,7 @@
 
 ```
 $ gem install travis-surveillance
-$ travis-surveillance --projects dylanegan/travis-surveillance
+$ travis-surveillance --project dylanegan/travis-surveillance
 ```
 
 ![](https://github.com/dylanegan/travis-surveillance/raw/master/travis-surveillance-output.png)
